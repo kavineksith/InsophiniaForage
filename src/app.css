@@ -1,0 +1,230 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Mac-style design system. Frosted sidebar, soft shadows,
+   rounded corners. Light theme by default with a dark variant
+   toggled by the .dark class on <html>.
+   ============================================================ */
+
+:root {
+  --bg-base: 245 245 247;
+  --bg-sidebar: 245 245 247 / 0.72;
+  --bg-card: 255 255 255;
+  --bg-hover: 236 236 239;
+  --text-primary: 29 29 31;
+  --text-secondary: 110 110 115;
+  --text-tertiary: 161 161 166;
+  --accent: 0 122 255;
+  --accent-hover: 0 102 214;
+  --success: 52 199 89;
+  --warning: 255 149 0;
+  --danger: 255 59 48;
+  --border: 0 0 0 / 0.06;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.06);
+  --shadow-popover: 0 8px 32px rgba(0, 0, 0, 0.18);
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+}
+
+.dark {
+  --bg-base: 28 28 30;
+  --bg-sidebar: 28 28 30 / 0.72;
+  --bg-card: 44 44 46;
+  --bg-hover: 58 58 60;
+  --text-primary: 255 255 255;
+  --text-secondary: 152 152 157;
+  --text-tertiary: 99 99 102;
+  --accent: 10 132 255;
+  --accent-hover: 64 156 255;
+  --border: 255 255 255 / 0.08;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: theme('fontFamily.sans');
+  background: rgb(var(--bg-base));
+  color: rgb(var(--text-primary));
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+}
+
+/* Allow text selection in inputs and contenteditable */
+input, textarea, [contenteditable] {
+  user-select: text;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: inherit;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+a {
+  color: rgb(var(--accent));
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Custom scrollbar — Mac-style thin overlay. */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================================
+   Reusable component classes
+   ============================================================ */
+
+@layer components {
+  .card {
+    background: rgb(var(--bg-card));
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 1.25rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: background 0.15s, transform 0.05s;
+  }
+  .btn:active {
+    transform: scale(0.98);
+  }
+  .btn-primary {
+    background: rgb(var(--accent));
+    color: white;
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: rgb(var(--accent-hover));
+  }
+  .btn-secondary {
+    background: rgb(var(--bg-hover));
+    color: rgb(var(--text-primary));
+  }
+  .btn-secondary:hover:not(:disabled) {
+    background: rgb(var(--text-tertiary) / 0.3);
+  }
+  .btn-danger {
+    background: rgb(var(--danger));
+    color: white;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: rgb(var(--text-secondary));
+  }
+  .btn-ghost:hover:not(:disabled) {
+    background: rgb(var(--bg-hover));
+  }
+
+  .input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius);
+    background: rgb(var(--bg-card));
+    border: 1px solid rgb(var(--border));
+    color: rgb(var(--text-primary));
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .input:focus {
+    border-color: rgb(var(--accent));
+    box-shadow: 0 0 0 3px rgb(var(--accent) / 0.15);
+  }
+
+  .label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgb(var(--text-secondary));
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgb(var(--text-tertiary));
+    flex-shrink: 0;
+  }
+  .dot.on {
+    background: rgb(var(--success));
+    box-shadow: 0 0 0 3px rgb(var(--success) / 0.2);
+  }
+  .dot.starting {
+    background: rgb(var(--warning));
+    box-shadow: 0 0 0 3px rgb(var(--warning) / 0.2);
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  .pill-success {
+    background: rgb(var(--success) / 0.15);
+    color: rgb(var(--success));
+  }
+  .pill-warning {
+    background: rgb(var(--warning) / 0.15);
+    color: rgb(var(--warning));
+  }
+  .pill-danger {
+    background: rgb(var(--danger) / 0.15);
+    color: rgb(var(--danger));
+  }
+  .pill-neutral {
+    background: rgb(var(--text-tertiary) / 0.15);
+    color: rgb(var(--text-secondary));
+  }
+}

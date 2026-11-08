@@ -1,0 +1,85 @@
+# DISCLAIMER — InsophiniaForage
+
+**Last updated: 2026-10-27**
+
+## 1. Experimental status
+
+InsophiniaForage ("the Software") is an **experimental, unfinished project** developed to explore modern desktop tooling for PHP development. It is **not production-ready**, has not been audited, security-reviewed, or tested to any industry standard, and is provided solely for **educational and experimental purposes**.
+
+## 2. No warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. THE AUTHORS OR COPYRIGHT HOLDERS SHALL NOT BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+This disclaimer is in addition to (and does not replace) the MIT License under which the Software is distributed. Where the two conflict, this disclaimer takes precedence regarding scope of liability.
+
+## 3. No guarantee of correctness
+
+- The Software may **destroy data**, **corrupt configurations**, **fail to start services**, **misroute HTTP requests**, **generate invalid SQL**, or **produce incorrect output** in any combination.
+- The compatibility matrix, version detection, and binary resolution logic are **best-effort heuristics**. They may report a version as "compatible" when it is not, or refuse to install a combination that would actually work.
+- The compile-from-source feature runs `./configure && make && make install` from official source tarballs, but the configure flags are hardcoded and may **omit extensions you need** or **include extensions that conflict** with your system.
+- The package-manager install commands are generated based on the maintainers' published docs at the time of writing. They may **break** if the maintainer changes the repo URL, signing key, or package names.
+
+## 4. Security considerations
+
+- The MariaDB configuration uses `skip-grant-tables` (matches XAMPP's behavior) so any local process can connect as root without a password. This is **safe only because MariaDB binds to `127.0.0.1`**. If you change the bind address, you have a critical vulnerability.
+- The app's `settings.json` contains the auto-generated DB password with `0600` permissions. Any process running as your user can read it.
+- The app's CSP is locked down to `default-src 'self'`, but the SvelteKit frontend is loaded from a local `tauri://` origin. WebView2/WebKit bugs could in theory escape the sandbox.
+- The app spawns child processes (nginx, PHP-FPM, MariaDB) and pipes their stdout/stderr to log files. Those log files may contain **sensitive data** (DB credentials, session IDs, error stack traces). They are stored at `~/.insophinia-forage/logs/` with default user permissions.
+- The app downloads binaries from the internet. Checksum verification is **only performed when the source publishes a SHA-256** — many sources don't, in which case the download proceeds without verification.
+
+## 5. Not for production use
+
+The Software is designed for **local development only**. Do not use it:
+
+- To serve a public-facing website
+- To store or process sensitive data (PII, financial records, credentials)
+- On a shared machine where other users may access `~/.insophinia-forage/`
+- In any context where data loss would cause material harm
+
+## 6. Backup your data
+
+Before running the Software, **back up**:
+
+- Any existing `~/.insophinia-forage/` directory (if you have an older version)
+- Any existing MariaDB databases (the app may upgrade or downgrade MariaDB)
+- Any existing `wp-config.php` files (the WordPress installer overwrites them)
+- Your system PHP/nginx configs (the app does NOT touch these, but bugs could)
+
+## 7. Liability
+
+Under no circumstances will the authors or copyright holders be liable for:
+
+- Data loss, database corruption, or service downtime
+- Loss of revenue, profit, or business opportunities
+- Damage to your system, including corruption of system packages
+- Security breaches resulting from the Software's configuration defaults
+- Any indirect, incidental, special, consequential, or punitive damages
+
+## 8. Use of third-party software
+
+The Software downloads, bundles, or interacts with third-party software including but not limited to:
+
+- PHP (php.net)
+- nginx (nginx.org)
+- MariaDB (mariadb.org)
+- phpMyAdmin (phpmyadmin.net)
+- Composer (getcomposer.org)
+- WordPress (wordpress.org)
+- static-php-cli (github.com/crazywhalecc/static-php-cli)
+- Ondřej Surý's PHP packages (packages.sury.org)
+- Remi Collet's PHP packages (rpms.remirepo.net)
+- Homebrew (brew.sh)
+
+The authors of InsophiniaForage are not affiliated with, endorsed by, or sponsored by any of these projects. Each third-party component is subject to its own license and terms. The authors of InsophiniaForage make no guarantee about the safety, correctness, or availability of these third-party components.
+
+## 9. Reporting issues
+
+If you find a bug, security issue, or data-loss scenario, please open an issue on the project repository. There is **no SLA** for fixes — this is a hobby project.
+
+## 10. Acceptance
+
+By installing, running, or distributing the Software, you acknowledge that you have read, understood, and agreed to this disclaimer. If you do not agree, do not use the Software.
+
+---
+
+*This disclaimer may be updated at any time without notice. The version current at the time of your use is the one that applies.*
